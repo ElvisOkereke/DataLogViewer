@@ -1,21 +1,10 @@
 "use client";
 import CSVReader from "@/components/CSVReader";
-import React from "react";
+import React, { useState, useMemo } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import Banner from "@/components/banner";
-import ChartBuilder from "@/components/ChartBuilder";
-import { useSearchParams } from "next/navigation";
-
-export function chartLoader() {
-  console.log("loading chart!");
-  var searchParams = useSearchParams();
-  console.log(searchParams.get("result"));
-  var res = searchParams.get("result");
-  var labels = searchParams.get("labels");
-  <ChartBuilder data={res} labels={labels} />;
-}
 
 export default function Home() {
   return (
@@ -30,7 +19,7 @@ export default function Home() {
 
       <Banner />
 
-      <section id="graph" className="snap-start">
+      <section id="csvreader" className="snap-start">
         <CSVReader />
       </section>
     </div>

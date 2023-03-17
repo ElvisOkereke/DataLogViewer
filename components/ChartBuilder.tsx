@@ -11,11 +11,13 @@ import {
 } from "ag-grid-community";
 
 type Props = {
-  data: any;
-  labels: any;
+  rows: any[];
+  labels: string[];
 };
 
-function ChartBuilder({}: Props) {
+function ChartBuilder({ rows, labels }: Props) {
+  <GridExample />;
+
   return <div className="flex"></div>;
 }
 

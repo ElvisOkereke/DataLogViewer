@@ -3,13 +3,14 @@ import { useCSVReader } from "react-papaparse";
 import LogBuilder from "./LogBuilder";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import ChartBuilder from "./ChartBuilder";
 
 type Props = {};
 
-var labels: any = [];
-var data: any = [];
+var fields: string[] = [];
+var data: any[] = [];
 
-function Transpose(matrix: any, n: any) {
+function Transpose(matrix: any) {
   if (matrix) {
     for (let i = 0; i < matrix.length; i++) {
       for (let j = 0; j < i; j++) {
@@ -19,22 +20,34 @@ function Transpose(matrix: any, n: any) {
       }
     }
   }
-  matrix.splice(n, matrix.length - n);
+  //matrix.splice(n, matrix.length - n);
+
+  return matrix;
+}
+
+function shift(matrix: any, n: number) {
+  if (matrix) {
+    for (let j = 0; j < n; j++) {
+      if (matrix[j][0] != undefined) matrix[j].shift();
+    }
+  }
+  //matrix.splice(n, matrix.length - n);
 
   return matrix;
 }
 
 function CSVReader({}: Props) {
   const { CSVReader } = useCSVReader();
-  const [data, setData] = React.useState<any>([]);
-  const [meta, setMeta] = React.useState<any>([]);
 
   return (
     <div>
       <CSVReader
         onUploadAccepted={(results: any) => {
-          setMeta(results.meta.fields);
-          setData(Transpose(results.data, meta.fields.length));
+          fields = results.data[0];
+          console.log(fields);
+          data = Transpose(results.data);
+          data = shift(data, fields.length);
+          console.log(data);
         }}
         parseOptions={{ header: true }}
       >
@@ -65,14 +78,7 @@ function CSVReader({}: Props) {
                 type="button"
                 {...getRootProps()}
               >
-                <Link
-                  href={{
-                    pathname: "/chart",
-                    query: { columns: data, parameters: labels },
-                  }}
-                >
-                  Browse file
-                </Link>
+                Browse file
               </button>
               <div>{acceptedFile && acceptedFile.name}</div>
               <button
@@ -88,6 +94,8 @@ function CSVReader({}: Props) {
           </>
         )}
       </CSVReader>
+
+      <ChartBuilder rows={data} labels={fields} />
     </div>
   );
 }
