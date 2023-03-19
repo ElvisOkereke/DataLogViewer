@@ -4,8 +4,8 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ['cdn.discordapp.com'],
-  }
-}
+    domains: ["cdn.discordapp.com"],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
