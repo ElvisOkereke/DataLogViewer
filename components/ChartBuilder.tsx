@@ -1,93 +1,109 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-enterprise";
 import {
-  AgChartThemeOverrides,
-  ColDef,
-  ColGroupDef,
-  FirstDataRenderedEvent,
-  Grid,
-  GridOptions,
-} from "ag-grid-community";
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+function shift(matrix: any, n: number) {
+  if (matrix) {
+    for (let j = 0; j < n; j++) {
+      if (matrix[j][0] != undefined) matrix[j].shift();
+    }
+  }
+  //matrix.splice(n, matrix.length - n);
+
+  return matrix;
+}
+function Transpose(matrix: any) {
+  if (matrix) {
+    for (let i = 0; i < matrix.length; i++) {
+      for (let j = 0; j < i; j++) {
+        const tmp = matrix[i][j];
+        matrix[i][j] = matrix[j][i];
+        matrix[j][i] = tmp;
+      }
+    }
+  }
+
+  return matrix;
+}
 
 type Props = {
   rows: any[];
   labels: string[];
 };
 
-function ChartBuilder({ rows, labels }: Props) {
-  <GridExample />;
-
-  return <div className="flex"></div>;
-}
-
-const GridExample = () => {
-  const gridRef = useRef<AgGridReact>(null);
-  const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
-  const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState<any[]>();
-  const [columnDefs, setColumnDefs] = useState<ColDef[]>();
-  const defaultColDef = useMemo<ColDef>(() => {
-    return {
-      flex: 1,
-      minWidth: 100,
-      editable: true,
-      sortable: true,
-      filter: true,
-      resizable: true,
-    };
-  }, []);
-  const chartThemes = useMemo<string[]>(() => {
-    return ["ag-pastel", "ag-vivid"];
-  }, []);
-  const popupParent = useMemo<HTMLElement | null>(() => {
-    return document.body;
-  }, []);
-  const chartThemeOverrides = useMemo<AgChartThemeOverrides>(() => {
-    return {
-      common: {
-        legend: {
-          position: "bottom",
-        },
-        axes: {
-          number: {
-            title: {
-              enabled: true,
-            },
-          },
-        },
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top" as const,
+    },
+    title: {
+      display: true,
+      text: "Chart.js Line Chart",
+    },
+    zoom: {
+      pan: {
+        enabled: true,
+        mode: "x",
       },
-      column: {
-        series: {
-          strokeWidth: 2,
-          fillOpacity: 0.8,
+      zoom: {
+        pinch: {
+          enabled: true, // Enable pinch zooming
         },
-      },
-      line: {
-        series: {
-          strokeWidth: 5,
-          strokeOpacity: 0.8,
+        wheel: {
+          enabled: true, // Enable wheel zooming
         },
+        mode: "x",
       },
-    };
-  }, []);
-
-  const onFirstDataRendered = useCallback((params: FirstDataRenderedEvent) => {
-    gridRef.current!.api.createRangeChart({
-      chartType: "customCombo",
-      cellRange: {
-        columns: ["month", "rain", "pressure", "temp"],
-      },
-      seriesChartTypes: [
-        { colId: "rain", chartType: "groupedColumn", secondaryAxis: false },
-        { colId: "pressure", chartType: "line", secondaryAxis: true },
-        { colId: "temp", chartType: "line", secondaryAxis: true },
-      ],
-      aggFunc: "sum",
-      suppressChartRanges: true,
-      chartContainer: document.querySelector("#myChart") as any,
-    });
-  }, []);
+    },
+  },
 };
+
+function ChartBuilder({ rows, labels }: Props) {
+  const label = rows[0];
+
+  const data = {
+    label,
+    datasets: [
+      {
+        label: labels[1],
+        data: labels[1],
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+      {
+        label: labels[2],
+        data: rows[2],
+        borderColor: "rgb(53, 162, 235)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+    ],
+  };
+
+  return (
+    <div className="flex">
+      <Line options={options} data={data} />
+    </div>
+  );
+}
 
 export default ChartBuilder;
