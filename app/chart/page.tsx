@@ -13,7 +13,9 @@ import {
   Tooltip,
   Legend,
   Brush,
+  ResponsiveContainer,
 } from "recharts";
+import { FullWidth } from "ag-grid-community/dist/lib/components/framework/componentTypes";
 
 type Props = {};
 
@@ -121,7 +123,7 @@ function page({}: Props) {
       <div className="">
         <LineChart
           width={1500}
-          height={1500}
+          height={1000}
           data={data}
           margin={{
             top: 5,
