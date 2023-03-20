@@ -195,11 +195,7 @@ export default function Home() {
             <div className="sm:flex sm:items-center sm:justify-between">
               <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
                 © 2022{" "}
-                <a
-                  href="https://flowbite.com"
-                  target="_blank"
-                  className="hover:underline"
-                >
+                <a href="" target="_blank" className="hover:underline">
                   LVBT™
                 </a>
                 . All Rights Reserved.
