@@ -1,9 +1,12 @@
 "use client";
 import Banner from "@/components/banner";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Papa from "papaparse";
 import Image from "next/image";
+import { BsGrid } from "react-icons/bs";
+import { CiGrid2H } from "react-icons/ci";
+import { ImCheckboxUnchecked } from "react-icons/im";
 import {
   LineChart,
   Line,
@@ -19,6 +22,10 @@ import { FullWidth } from "ag-grid-community/dist/lib/components/framework/compo
 
 type Props = {};
 
+//const windowSize = useRef([window.innerWidth, window.innerHeight]);
+//Width: {windowSize.current[0]}
+//Height: {windowSize.current[1]}
+
 const productList = (data: any) => {
   for (let i = 0; i < data.length; i++) {
     let obj = data[i];
@@ -31,6 +38,8 @@ const productList = (data: any) => {
     });
   }
 };
+
+const resize = () => {};
 
 const drawChart = (fields: any) => {
   //for (let i = 0; i < fields.length; i++) {
@@ -94,53 +103,101 @@ function page({}: Props) {
   };
   return (
     <div
-      className="bg-[rgb(36,36,36)] text-white h-screen snap-mandatory
-    snap-y overflow-scroll z-0 overflow-y-scroll overflow-x-hidden scrollbar
-     scrollbar-track-gray-400/20 scrollbar-thumb-[#F7AB0A] "
+      className=" mx-auto grid max-w-full grid-cols-12 gap-4 bg-[rgb(36,36,36)] h-screen space-y-10 p-5 
+                  snap-mandatory snap-y overflow-scroll z-0 overflow-y-scroll overflow-x-hidden scrollbar
+                 scrollbar-track-gray-400/20 scrollbar-thumb-[#F7AB0A]"
     >
-      <form className="flex items-center space-x-6">
-        <div className="shrink-0">
-          <Image
-            className="h-20 w-20 shadow-md object-cover rounded-full"
-            src="https://cdn.discordapp.com/attachments/705799653848776784/1082842903518388224/LVBT_Logo.jpg"
-            alt="photo"
-            height={500}
-            width={500}
-          />
+      <section
+        id="uploader"
+        className="snap-start p-5 header col-span-12 rounded-lg border border-gray-300 bg-gray-800"
+      >
+        <form className="">
+          <div className="flex space-x-5 shrink-0">
+            <Image
+              className="h-20 w-20 shadow-md object-cover rounded-full"
+              src="https://cdn.discordapp.com/attachments/705799653848776784/1082842903518388224/LVBT_Logo.jpg"
+              alt="photo"
+              height={500}
+              width={500}
+            />
+
+            <label className="">
+              <span className="sr-only">Choose File</span>
+              <input
+                type="file"
+                className="block w-full text-sm text-gray-500 
+                        file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 
+                        file:text-sm file:font-semibold file:bg-blue-50 file:text-[#f58231]
+                      hover:file:bg-blue-100"
+                onChange={handleFileUpload}
+              />
+            </label>
+            <button
+              type="button"
+              className="inline-flex text-white bg-gradient-to-r
+             from-[#f58231] to-[#F7AB0A] hover:bg-gradient-to-l focus:outline-none
+              focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-2xl
+               text-sm px-5 py-2.5 text-center mr-2"
+            >
+              <ImCheckboxUnchecked className=" h-10 w-10 mt-2 mr-2" />
+              <div className="text-xl font-mono font-bold pt-4">
+                Single Chart
+              </div>
+            </button>
+            <button
+              type="button"
+              className="inline-flex text-white bg-gradient-to-r
+             from-[#f58231] to-[#F7AB0A] hover:bg-gradient-to-l focus:outline-none
+              focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-2xl
+               text-sm px-5 py-2.5 text-center mr-2"
+            >
+              <CiGrid2H className=" h-10 w-10 mt-2 mr-2" />
+              <div className="text-xl font-mono font-bold pt-4">
+                Double Chart
+              </div>
+            </button>
+            <button
+              type="button"
+              className="inline-flex text-white bg-gradient-to-r
+             from-[#f58231] to-[#F7AB0A] hover:bg-gradient-to-l focus:outline-none
+              focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-2xl
+               text-sm px-5 py-2.5 text-center mr-2"
+            >
+              <BsGrid className=" h-10 w-10 mt-2 mr-2" />
+              <div className="text-xl font-mono font-bold pt-4">Quad Chart</div>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section
+        id="main"
+        className="snap-center col-span-12 rounded-lg border border-gray-500 p-32"
+      >
+        <div className="w-[2000px] h-[1100px]">
+          <ResponsiveContainer>
+            <LineChart
+              width={1500}
+              height={1000}
+              data={data}
+              margin={{
+                top: 5,
+                right: 20,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey={fields[0]} />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              {drawChart(fields)}
+              <Brush height={30} />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
-        <label className="block">
-          <span className="sr-only">Choose File</span>
-          <input
-            type="file"
-            className="block w-full text-sm text-gray-500 
-    file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 
-    file:text-sm file:font-semibold file:bg-blue-50 file:text-[#f58231]
-     hover:file:bg-blue-100"
-            onChange={handleFileUpload}
-          />
-        </label>
-      </form>
-      <div className="">
-        <LineChart
-          width={1500}
-          height={1000}
-          data={data}
-          margin={{
-            top: 5,
-            right: 20,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey={fields[0]} />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          {drawChart(fields)}
-          <Brush height={30} />
-        </LineChart>
-      </div>
+      </section>
     </div>
   );
 }

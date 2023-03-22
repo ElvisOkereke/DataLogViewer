@@ -28,9 +28,10 @@ export default function Home() {
               Level Up Your Tuning
             </h2>
             <p className="w-full py-8 mx-auto -mt-2 text-lg text-center text-gray-400 intro sm:max-w-3xl">
-              Add some nice touches to your interface with our latest designs,
-              components, and templates. We've crafted a beautiful user
-              experience that your visitors will love.{" "}
+              Tune your project cars, boats, or karts, using this FREE online
+              data logging tool. Save your sensor data in a CSV file, enter your
+              email and create an account to get started (THIS IS A DEMO JUST
+              HIT GET STARTED){" "}
             </p>
             <div className="mt-8 flex flex-col space-y-3 sm:-mx-2 sm:flex-row sm:justify-center sm:space-y-0">
               <input
@@ -39,10 +40,11 @@ export default function Home() {
                 className="rounded-md border border-transparent bg-white/20 px-4 py-2 text-white placeholder-white backdrop-blur-sm focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 sm:mx-2"
                 placeholder="Email Address"
               />
-
-              <button className="transform rounded-md bg-[#F7AB0A] px-8 py-2 text-sm font-medium capitalize tracking-wide text-white transition-colors duration-200 hover:bg-[#8b640f] focus:bg-[#8b640f] focus:outline-none sm:mx-2">
-                <Link href="/chart"> Get Started!</Link>
-              </button>
+              <Link href="/chart">
+                <button className="transform rounded-md bg-[#F7AB0A] px-8 py-2 text-sm font-medium capitalize tracking-wide text-white transition-colors duration-200 hover:bg-[#8b640f] focus:bg-[#8b640f] focus:outline-none sm:mx-2">
+                  Get Started!
+                </button>
+              </Link>
             </div>
           </div>
           <div className="flex flex-col mb-8 animated fadeIn sm:flex-row">
