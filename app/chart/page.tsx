@@ -176,7 +176,7 @@ function page({}: Props) {
                text-sm px-5 py-2.5 text-center mr-2"
               >
                 <AiOutlineDownload className=" h-10 w-10 mt-2 mr-2" />
-                <div className="text-xl font-mono font-bold pt-4">
+                <div className="text-xl font-mono font-bold py-4">
                   Dummy data
                 </div>
               </button>
