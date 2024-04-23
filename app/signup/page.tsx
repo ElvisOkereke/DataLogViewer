@@ -3,6 +3,9 @@ import React from "react";
 type Props = {};
 
 function page({}: Props) {
+
+
+  
   return (
     <div className="grid h-screen w-screen place-items-center bg-slate-800 px-4 text-sm font-medium">
       <div className="w-full max-w-sm rounded-lg bg-slate-700/30 shadow">

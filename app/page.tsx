@@ -4,9 +4,20 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import Banner from "@/components/banner";
+import { SessionProvider } from "next-auth/react";
+import { AppProps } from "next/app";
 
-export default function Home() {
+//!/THINGS TO FIX
+//!/ 1. Fix next-auth ClientIDs being undefined
+//!/ 2. Send from backend to frontend
+//!/ Whatever data intervals the model spits out regarding the classification of each region
+//!/ 3. Sending to the backend from frontend
+//!/ results.data or results obj then save data in db(when we get account set up), and send data to model to be classified using flask backend
+
+const Home = ({ Component, pageProps }: AppProps) => {
   return (
+    // <SessionProvider session={pageProps.session}>
+    //  <Component {...pageProps} />
     <div
       className="bg-[rgb(39,39,39)] text-white h-screen snap-mandatory
     snap-y overflow-scroll z-0 overflow-y-scroll overflow-x-hidden scrollbar
@@ -51,7 +62,7 @@ export default function Home() {
             <div className="flex items-center mb-8 sm:w-1/2 md:w-5/12 sm:order-last">
               <Image
                 className="rounded-lg shadow-xl"
-                src="https://cdn.discordapp.com/attachments/705799653848776784/1087115427412451480/image.png"
+                src="https://live.staticflickr.com/65535/53673275486_2b4b69be62_b.jpg"
                 alt=""
                 height={500}
                 width={500}
@@ -75,7 +86,7 @@ export default function Home() {
             <div className="flex items-center mb-8 sm:w-1/2 md:w-5/12">
               <Image
                 className="rounded-lg shadow-xl"
-                src="https://cdn.discordapp.com/attachments/705799653848776784/1087114689760198787/image.png"
+                src="https://live.staticflickr.com/65535/53673629654_34645b9e0e_b.jpg"
                 alt=""
                 height={500}
                 width={500}
@@ -99,7 +110,7 @@ export default function Home() {
             <div className="flex items-center mb-8 sm:w-1/2 md:w-5/12 sm:order-last">
               <Image
                 className="rounded-lg shadow-xl"
-                src="https://cdn.discordapp.com/attachments/705799653848776784/1087115447398301836/image.png"
+                src="https://live.staticflickr.com/65535/53673490808_a3f55f9680_b.jpg"
                 alt=""
                 height={500}
                 width={500}
@@ -291,4 +302,5 @@ export default function Home() {
       </section>
     </div>
   );
-}
+};
+export default Home;

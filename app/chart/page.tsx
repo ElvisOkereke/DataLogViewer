@@ -43,14 +43,6 @@ function page({}: Props) {
   let max: any, maxId: any;
 
   const drawChart = (fields: any) => {
-    //for (let i = 0; i < fields.length; i++) {
-    //max == null ? (max = 0) : max;
-    //if (Math.max(datatmp[i]) > max) {
-    //max = Math.max(datatmp[i]);
-    // maxId = i;
-    //  }
-    // }
-
     let colors = [
       "#ffc658",
       "#82ca9d",
@@ -76,7 +68,6 @@ function page({}: Props) {
       "#ffd8b1",
       "#000075",
     ];
-
     return fields.map((field: string, id: number) => {
       return (
         <Line
@@ -92,6 +83,7 @@ function page({}: Props) {
   };
 
   const handleFileUpload = (event: any) => {
+    //CONVERTS .CSV TO OBJECT
     const file = event.target.files[0];
     Papa.parse(file, {
       header: true,
@@ -116,7 +108,7 @@ function page({}: Props) {
           <div className="flex space-x-5 shrink-0">
             <Image
               className="h-20 w-20 shadow-md object-cover rounded-full"
-              src="https://cdn.discordapp.com/attachments/705799653848776784/1082842903518388224/LVBT_Logo.jpg"
+              src="https://live.staticflickr.com/65535/53673667989_9d599773fd_b.jpg"
               alt="photo"
               height={500}
               width={500}
@@ -167,7 +159,7 @@ function page({}: Props) {
               <BsGrid className=" h-10 w-10 mt-2 mr-2" />
               <div className="text-xl font-mono font-bold pt-4">Quad Chart</div>
             </button>
-            <Link href="https://cdn.discordapp.com/attachments/566802843642888192/1088235509769310258/dummy_autodata_-_Sheet2.csv">
+            <Link href="https://drive.usercontent.google.com/download?id=1XZNwg_dAtOyrka6FuNLcpjw0666B7v6o&export=download&authuser=0&confirm=t&uuid=96f27aad-0141-4831-93c0-e0976e364827&at=APZUnTXv-V76RD6f61uv_4nLQJmI:1713877381929">
               <button
                 type="button"
                 className="inline-flex text-white bg-gradient-to-r
