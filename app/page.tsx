@@ -14,7 +14,7 @@ import { AppProps } from "next/app";
 //!/ 3. Sending to the backend from frontend
 //!/ results.data or results obj then save data in db(when we get account set up), and send data to model to be classified using flask backend
 
-const Home = ({ Component, pageProps }: AppProps) => {
+const Home = () => {
   return (
     // <SessionProvider session={pageProps.session}>
     //  <Component {...pageProps} />
