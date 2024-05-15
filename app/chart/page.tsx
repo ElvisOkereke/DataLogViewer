@@ -21,26 +21,40 @@ import {
 } from "recharts";
 import { FullWidth } from "ag-grid-community/dist/lib/components/framework/componentTypes";
 import Link from "next/link";
+import { Console, log } from "console";
 
 type Props = {};
-
-const productList = (data: any) => {
-  for (let i = 0; i < data.length; i++) {
-    let obj = data[i];
-    Object.keys(obj).forEach((key) => {
-      var replacedKey = key.trim().toUpperCase().replaceAll(" ", "_");
-      if (key !== replacedKey) {
-        obj[replacedKey] = obj[key];
-        delete obj[key];
-      }
-    });
-  }
-};
 
 function page({}: Props) {
   const [data, setData] = useState<any>([]);
   const [fields, setFields] = useState<any>([]);
-  let max: any, maxId: any;
+
+  const productList = (data: any) => {
+    //formatting data, make a new object values with keys in uppercase and no spaces, then deletes the old keys
+    for (let i = 0; i < data.length; i++) {
+      let obj = data[i];
+      Object.keys(obj).forEach((key) => {
+        var replacedKey = key.trim().toUpperCase().replaceAll(" ", "_");
+        if (key !== replacedKey) {
+          obj[replacedKey] = obj[key];
+          delete obj[key];
+        }
+      });
+    }
+  };
+  const handleFileUpload = (event: any) => {
+    //CONVERTS .CSV TO OBJECT
+    const file = event.target.files[0];
+    Papa.parse(file, {
+      header: true,
+      complete: (result: any) => {
+        console.log(result.data);
+        setFields(result.meta.fields);
+        productList(result.data);
+        setData(result.data);
+      },
+    });
+  };
 
   const drawChart = (fields: any) => {
     let colors = [
@@ -82,21 +96,9 @@ function page({}: Props) {
     });
   };
 
-  const handleFileUpload = (event: any) => {
-    //CONVERTS .CSV TO OBJECT
-    const file = event.target.files[0];
-    Papa.parse(file, {
-      header: true,
-      complete: (result: any) => {
-        setFields(result.meta.fields);
-        productList(result.data);
-        setData(result.data);
-      },
-    });
-  };
   return (
     <div
-      className=" mx-auto grid max-w-full grid-cols-12 gap-4 bg-[rgb(36,36,36)] h-screen space-y-10 p-5 
+      className="mx-auto grid max-w-full grid-cols-12 gap-4 bg-[rgb(36,36,36)] h-screen space-y-10 p-5 
                   snap-mandatory snap-y overflow-scroll z-0 overflow-y-scroll overflow-x-hidden scrollbar
                  scrollbar-track-gray-400/20 scrollbar-thumb-[#F7AB0A]"
     >
@@ -196,10 +198,16 @@ function page({}: Props) {
             >
               <XAxis dataKey={fields[0]} />
 
-              <YAxis domain={["auto", Math.max(data[maxId])]} />
+              <YAxis
+                type="number"
+                domain={["auto", 150]}
+                allowDataOverflow
+                includeHidden
+              />
               <Tooltip />
               <Legend />
               {drawChart(fields)}
+              {console.log(data)}
               <Brush height={30} />
             </LineChart>
           </ResponsiveContainer>
